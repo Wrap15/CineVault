@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CineVault — AI-powered movie discovery. Explore Hollywood, Bollywood, Gujarati, South Indian, Anime & Web Series.">
+  <meta name="theme-color" content="#0a0a0f">
+  <title>CineVault — Discover Movies</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="fa.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="fa.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="fa.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="fa.png">
+  <link rel="shortcut icon" type="image/x-icon" href="fa.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/search-styles.css">
+</head>
+
+<body>
+
+  <!-- ===== PARTICLE CANVAS ===== -->
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-left">
+      <div class="nav-logo-wrapper" id="nav-logo-btn" title="Back to Home" role="button" tabindex="0" aria-label="Go to Home">
+        <img src="fa.png" alt="CineVault Logo" class="nav-logo-img">
+      </div>
+      <span class="nav-divider" aria-hidden="true"></span>
+      <p class="greeting-message" id="greeting-msg" aria-live="polite"></p>
+    </div>
+
+    <!-- Inline search (visible after first search / on mobile tap) -->
+    <div class="nav-center" id="nav-search-inline" style="display:none;">
+      <div class="nav-search-bar">
+        <i class="fa-solid fa-magnifying-glass nav-search-icon" aria-hidden="true"></i>
+        <input type="search" id="nav-search-input" placeholder="Search movies…" autocomplete="off" aria-label="Search movies">
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <button class="nav-icon-btn" id="theme-toggle-btn" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
+        <i class="fa-solid fa-moon" id="theme-icon" aria-hidden="true"></i>
+      </button>
+      <button class="nav-icon-btn" id="nav-search-toggle" title="Search" aria-label="Toggle search">
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+      </button>
+      <button class="nav-icon-btn fav-nav-btn" id="nav-fav-btn" title="My Favourites" aria-label="My Favourites">
+        <i class="fa-solid fa-heart" aria-hidden="true"></i>
+        <span class="fav-badge" id="fav-badge" style="display:none;" aria-label="Favourites count">0</span>
+      </button>
+    </div>
+  </nav>
+  <!-- ===== END NAVBAR ===== -->
+
+
+  <!-- ===== HOME PAGE ===== -->
+  <div id="home-page">
+
+    <!-- Hero Section -->
+    <main class="hero" role="main">
+      <div class="hero-content">
+
+        <!-- Badge -->
+        <div class="hero-badge" aria-label="Powered by Keshav">
+          <i class="fa-solid fa-star" aria-hidden="true"></i>
+          <span>Powered by Keshav</span>
+        </div>
+
+        <!-- Title -->
+        <h1 class="hero-title">
+          Discover Your<br>
+          <span class="hero-title-accent">Next Favourite</span><br>
+          Movie
+        </h1>
+
+        <p class="hero-subtitle">
+          Explore Hollywood, Bollywood, South Indian, Anime, Web Series &amp; global cinema — all in one place.
+        </p>
+
+        <!-- Search Bar -->
+        <div class="hero-search-wrapper">
+          <div class="hero-search-bar" id="search-bar" role="search">
+            <i class="fa-solid fa-magnifying-glass search-icon-left" aria-hidden="true"></i>
+            <input
+              type="search"
+              id="movie-search-box"
+              class="search-query"
+              placeholder="Search for a movie, series…"
+              autocomplete="off"
+              spellcheck="false"
+              aria-label="Search movies and series"
+              aria-controls="search-list"
+              aria-autocomplete="list"
+            >
+            <button class="search-clear-btn" id="search-clear-btn" style="display:none;" title="Clear search" aria-label="Clear search">
+              <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+            <button class="search-submit-btn" id="search-submit-btn" aria-label="Submit search">
+              <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+              <span class="search-btn-text">Search</span>
+            </button>
+          </div>
+
+          <!-- Autocomplete Dropdown -->
+          <div class="search-list hide-search-list" id="search-list" role="listbox" aria-label="Search results"></div>
+        </div>
+
+        <!-- Quick Tags -->
+        <div class="quick-tags" id="quick-tags" aria-label="Trending searches">
+          <span class="qtag-label">Trending:</span>
+          <button class="qtag" data-query="Avengers">Avengers</button>
+          <button class="qtag" data-query="Inception">Inception</button>
+          <button class="qtag" data-query="Interstellar">Interstellar</button>
+          <button class="qtag" data-query="KGF">KGF</button>
+          <button class="qtag" data-query="Pushpa">Pushpa</button>
+        </div>
+      </div>
+
+      <!-- Floating Deco Cards -->
+      <div class="hero-deco" aria-hidden="true">
+        <div class="deco-ring deco-ring-1"></div>
+        <div class="deco-ring deco-ring-2"></div>
+      </div>
+    </main>
+
+
+
+  </div>
+  <!-- ===== END HOME PAGE ===== -->
+
+
+  <!-- ===== MOVIE DETAIL PAGE ===== -->
+  <section id="movie-detail-page" class="movie-detail-page" style="display:none;" aria-label="Movie Details">
+    <div class="detail-back-btn" id="detail-back-btn" role="button" tabindex="0" aria-label="Go back">
+      <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+      <span>Back</span>
+    </div>
+    <div class="detail-inner" id="result-flex"></div>
+  </section>
+  <!-- ===== END MOVIE DETAIL ===== -->
+
+
+  <!-- ===== FAVOURITES PAGE ===== -->
+  <section id="favourite-result" style="display:none;" aria-label="My Favourites">
+    <div class="fav-page-header">
+      <div>
+        <h1 class="fav-page-title">
+          <i class="fa-solid fa-heart" aria-hidden="true"></i>
+          My Favourites
+        </h1>
+        <p class="fav-page-sub">Your curated collection of must-watch films</p>
+      </div>
+      <div class="fav-header-actions">
+        <button class="fav-clear-btn" id="fav-clear-all-btn" title="Clear All" aria-label="Clear all favourites">
+          <i class="fa-solid fa-trash" aria-hidden="true"></i>
+          <span>Clear All</span>
+        </button>
+        <button class="fav-close-btn" id="fav-close-btn" title="Close" aria-label="Close favourites">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+    <div class="fav-list" id="fav-list" role="list" aria-label="Favourite movies"></div>
+    <div class="fav-empty" id="fav-empty" style="display:none;" aria-live="polite">
+      <i class="fa-regular fa-heart fav-empty-icon" aria-hidden="true"></i>
+      <h3>No favourites yet</h3>
+      <p>Search for a movie and click the heart to save it here.</p>
+    </div>
+  </section>
+  <!-- ===== END FAVOURITES ===== -->
+
+
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+
+    <!-- Top decorative line -->
+    <div class="footer-glow-bar" aria-hidden="true"></div>
+
+    <div class="footer-inner">
+
+      <!-- Left: About -->
+      <div class="footer-col footer-about">
+        <!-- CineVault wordmark (no image logo) -->
+        <div class="footer-wordmark" aria-label="CineVault">
+          <span class="fw-cine">Cine</span><span class="fw-vault">Vault</span>
+        </div>
+        <p class="footer-desc">
+          An AI-powered movie discovery platform. Explore Hollywood, Bollywood, Gujarati, South Indian, Anime, Web Series &amp; global cinema—all in one place.
+        </p>
+        <!-- Explore pills: compact, inline -->
+        <div class="footer-genre-pills" aria-label="Explore genres">
+          <span class="fgp">Hollywood</span>
+          <span class="fgp">Bollywood</span>
+          <span class="fgp">South Indian</span>
+          <span class="fgp">Gujarati</span>
+          <span class="fgp">Anime</span>
+          <span class="fgp">Web Series</span>
+        </div>
+      </div>
+
+      <!-- Right: Credit -->
+      <div class="footer-col footer-credit">
+        <p class="footer-credit-headline">Crafted with passion</p>
+        <p class="footer-credit-text">
+          Designed &amp; Built With&nbsp;<span class="footer-heart" aria-label="love"><i class="fa-solid fa-heart footer-heart-icon"></i></span>&nbsp;by
+          <a
+            href="https://my-portfolio-nine-eta-63.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="footer-author-link"
+            aria-label="Visit Dhaval Panchal's portfolio"
+          >DHAVAL PANCHAL</a>
+        </p>
+        <p class="footer-powered">Powered by <span class="footer-keshav">Keshav</span></p>
+      </div>
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; <span id="footer-year"></span> CineVault &mdash; All rights reserved.</p>
+      <p class="footer-bottom-tagline">Unlock Stories. Anytime. Everywhere.</p>
+    </div>
+  </footer>
+
+
+
+  <!-- ===== TOAST ===== -->
+  <div class="toast" id="toast" role="alert" aria-live="polite" aria-atomic="true">
+    <i class="fa-solid fa-circle-check toast-icon" aria-hidden="true"></i>
+    <span id="toast-msg">Added to favourites!</span>
+  </div>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="js/greetingMessage.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
