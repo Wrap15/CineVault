@@ -1,7 +1,7 @@
 /* ============================================================
    CINEVAULT — categories.js
    Hand-curated movie & series collections by category
-   Includes Automated Weekly/Monthly Catalog Auto-Refresh System
+   Includes Fallback Titles & Weekly Auto-Refresh System
    ============================================================ */
 
 const CATEGORIES = {
@@ -81,6 +81,66 @@ const CATEGORIES = {
   ]
 };
 
+const TITLES_FALLBACK = {
+  'tt1757678': 'Avatar: Fire and Ash',
+  'tt5950044': 'Superman',
+  'tt31036941': 'Jurassic World: Rebirth',
+  'tt14513804': 'Captain America: Brave New World',
+  'tt9603208': 'Mission: Impossible - The Final Reckoning',
+  'tt20969586': 'Thunderbolts*',
+  'tt16311594': 'F1',
+  'tt3566834': 'A Minecraft Movie',
+  'tt4900148': 'Elio',
+  'tt1674782': 'Karate Kid: Legends',
+  'tt11378946': 'Michael',
+  'tt15239678': 'Dune: Part Two',
+  'tt6263850': 'Deadpool & Wolverine',
+  'tt4154796': 'Avengers: Endgame',
+  'tt1375666': 'Inception',
+  'tt0816692': 'Interstellar',
+  'tt0468569': 'The Dark Knight',
+  'tt1160419': 'Dune',
+  'tt15398776': 'Oppenheimer',
+  'tt0133093': 'The Matrix',
+  'tt6751668': 'Parasite',
+  'tt12735488': 'Kalki 2898 AD',
+  'tt15097216': 'Jawan',
+  'tt5074352': 'Dangal',
+  'tt1187043': '3 Idiots',
+  'tt0073707': 'Sholay',
+  'tt7286456': 'Stree',
+  'tt10579942': 'Pathaan',
+  'tt2382320': 'PK',
+  'tt10698680': 'K.G.F: Chapter 2',
+  'tt8600134': 'Pushpa: The Rise',
+  'tt8178634': 'RRR',
+  'tt6710474': 'Kantara',
+  'tt2631186': 'Baahubali: The Beginning',
+  'tt7392728': 'Vikram',
+  'tt26331750': 'Vash',
+  'tt10469118': 'Hellaro',
+  'tt8094272': 'Reva',
+  'tt6949882': 'Shubh Aarambh',
+  'tt5086104': 'Chhello Divas',
+  'tt9014884': 'Sharato Lagu',
+  'tt7580570': 'Love Ni Bhavai',
+  'tt20251716': 'Naadi Dosh',
+  'tt23664710': 'Kutch Express',
+  'tt9335498': 'Demon Slayer: Mugen Train',
+  'tt0245429': 'Spirited Away',
+  'tt5311514': 'Your Name.',
+  'tt2560140': 'Attack on Titan',
+  'tt4772808': 'Jujutsu Kaisen 0',
+  'tt12637874': 'Fallout',
+  'tt2788316': 'Shogun',
+  'tt11198330': 'House of the Dragon',
+  'tt3581920': 'The Last of Us',
+  'tt0944947': 'Game of Thrones',
+  'tt4574334': 'Stranger Things',
+  'tt0903747': 'Breaking Bad',
+  'tt6468322': 'Money Heist'
+};
+
 const CATEGORY_NAMES = {
   latest2026: 'Latest & Upcoming Cinema (2025–2026)',
   hollywood: 'Hollywood Cinema',
@@ -99,8 +159,8 @@ function checkAutoRefreshCatalog() {
   try {
     const lastSync = localStorage.getItem(AUTO_REFRESH_KEY);
     const now = Date.now();
-    if (!lastSync || (now - Number(lastSync)) > SEVEN_DAYS_MS) {
-      localStorage.setItem(AUTO_REFRESH_KEY, String(now));
+    if (!lastSync || (now - parseInt(lastSync, 10)) > SEVEN_DAYS_MS) {
+      localStorage.setItem(AUTO_REFRESH_KEY, now.toString());
       return true;
     }
   } catch (e) {
@@ -111,7 +171,7 @@ function checkAutoRefreshCatalog() {
 
 /**
  * Fetches all movie details for a given category key using a provided detail fetcher.
- * Filters out items with missing posters (Poster === 'N/A').
+ * Guarantees zero empty screens by applying title fallbacks.
  * @param {string} categoryKey
  * @param {Function} fetchDetailFn - Function taking imdbID and returning Promise of movie detail object
  * @returns {Promise<Array>}
@@ -122,10 +182,9 @@ async function fetchCategoryCollection(categoryKey, fetchDetailFn) {
 
   const promises = ids.map(id =>
     fetchDetailFn(id)
-      .then(data => (data && data.Response === 'True') ? data : null)
-      .catch(err => {
-        console.warn(`Failed to fetch category item ${id}:`, err);
-        return null;
+      .then(data => (data && data.Response === 'True') ? data : { imdbID: id, Title: TITLES_FALLBACK[id] || 'CineVault Cinema', Year: '', Poster: 'N/A', Response: 'True' })
+      .catch(() => {
+        return { imdbID: id, Title: TITLES_FALLBACK[id] || 'CineVault Cinema', Year: '', Poster: 'N/A', Response: 'True' };
       })
   );
 

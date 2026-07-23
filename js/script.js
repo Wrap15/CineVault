@@ -53,12 +53,10 @@ function cacheSet(k, v) {
 // ── FAST FETCH WITH 3s TIMEOUT ─────────────────────────────
 async function fetchJSON(url, signal) {
   const timeoutCtrl = new AbortController();
-  const timer = setTimeout(() => timeoutCtrl.abort(), 3000);
+  const timer = setTimeout(() => timeoutCtrl.abort(), 8000);
   try {
-    const combinedSignal = signal && typeof AbortSignal.any === 'function' 
-      ? AbortSignal.any([signal, timeoutCtrl.signal]) 
-      : timeoutCtrl.signal;
-    const res = await fetch(url, { signal: combinedSignal });
+    const fetchSignal = signal || timeoutCtrl.signal;
+    const res = await fetch(url, { signal: fetchSignal });
     clearTimeout(timer);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.json();
@@ -166,32 +164,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Load default category showcase (Latest 2025-2026 Cinema)
   loadCategoryShowcase('latest2026');
 
-  // Background Pre-Warming for Instant Category Switching
-  prewarmCategories();
-
   // Check for periodic weekly auto-refresh of 2025-2026 catalog
   if (typeof checkAutoRefreshCatalog === 'function' && checkAutoRefreshCatalog()) {
     showToast('✨ Catalog updated with latest 2025–2026 cinema!', 'info');
   }
 });
-
-// ── BACKGROUND PRE-WARMING FOR INSTANT < 100ms CATEGORY SWITCHING ──────
-function prewarmCategories() {
-  setTimeout(async () => {
-    if (typeof CATEGORIES === 'undefined') return;
-    for (const catKey of Object.keys(CATEGORIES)) {
-      fetchCategoryCollection(catKey, id => {
-        const ck = `d:${id}`;
-        const cached = cacheGet(ck);
-        if (cached) return Promise.resolve(cached);
-        return fetchJSON(API.detail(id)).then(res => {
-          if (res?.Response === 'True') cacheSet(ck, res);
-          return res;
-        }).catch(() => null);
-      }).catch(() => null);
-    }
-  }, 400);
-}
 
 function handleDeepLinking() {
   try {
@@ -337,14 +314,19 @@ function attachListeners() {
     }
   });
 
-  // Clear button
+  // Clear / Close search button
   if (clearBtn) {
-    clearBtn.addEventListener('click', () => {
+    clearBtn.addEventListener('click', e => {
+      e.stopPropagation();
       movieSearchBox.value = '';
+      if (navSearchInput) navSearchInput.value = '';
       clearBtn.style.display = 'none';
       if (searchCtrl) { searchCtrl.abort(); searchCtrl = null; }
       hideSearchList();
-      movieSearchBox.focus();
+      showQuickTags();
+      const wrapper = document.querySelector('.hero-search-wrapper');
+      if (wrapper) wrapper.classList.remove('search-active');
+      showHomePage();
     });
   }
 
@@ -497,7 +479,6 @@ async function loadMovies(searchTerm) {
   if (!searchTerm || searchTerm.length < 2) return;
 
   const trimmed = searchTerm.trim();
-  addSearchHistory(trimmed);
 
   if (searchCtrl) searchCtrl.abort();
   searchCtrl = new AbortController();
@@ -1094,28 +1075,28 @@ function renderSavedList() {
 
   list.forEach((mv, idx) => {
     const card = document.createElement('div');
-    card.className = 'fav-card';
-    card.setAttribute('role', 'listitem');
+    card.className = 'fav-card category-card';
+    card.setAttribute('role', 'button');
     card.setAttribute('tabindex', '0');
-    card.style.animationDelay = `${idx * 0.05}s`;
+    card.style.animationDelay = `${idx * 0.04}s`;
     const id = mv.imdbID || mv.id;
 
     const posterSrc = mv.Poster || mv.poster || '';
     const posterHTML = (posterSrc && posterSrc !== 'N/A')
-      ? `<img class="fav-card-img" src="${escHtml(posterSrc)}" alt="${escHtml(mv.Title || mv.title || '')}" loading="lazy" onload="this.classList.add('loaded')">`
+      ? `<img class="category-card-img fav-card-img" src="${escHtml(posterSrc)}" alt="${escHtml(mv.Title || mv.title || '')}" loading="lazy" onload="this.classList.add('loaded')">`
       : createPosterPlaceholderHTML(mv.Title || mv.title || '');
 
     card.innerHTML = `
-      <div style="width:100%;height:220px;overflow:hidden;position:relative;">
+      <div class="category-card-poster-wrapper">
         ${posterHTML}
+        <div class="category-card-overlay"></div>
+        <button class="fav-card-remove" title="Remove" aria-label="Remove ${escHtml(mv.Title || mv.title || '')}">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
-      <div class="fav-card-body">
-        <div class="fav-card-title">${escHtml(mv.Title || mv.title || 'Unknown')}</div>
-        <div class="fav-card-year">${escHtml(mv.Year || mv.year || '')}</div>
-      </div>
-      <button class="fav-card-remove" aria-label="Remove ${escHtml(mv.Title || mv.title || '')}">
-        <i class="fa-solid fa-xmark"></i>
-      </button>`;
+      <div class="category-card-info">
+        <div class="category-card-title" title="${escHtml(mv.Title || mv.title || '')}">${escHtml(mv.Title || mv.title || 'Unknown')}</div>
+      </div>`;
 
     card.addEventListener('click', e => {
       if (!e.target.closest('.fav-card-remove')) openMovieModal(id);

@@ -47,14 +47,24 @@
   <!-- ===== PARTICLE CANVAS ===== -->
   <canvas id="particle-canvas" aria-hidden="true"></canvas>
 
+  <!-- ===== TOP ANNOUNCEMENT GREETING BANNER (OnlyProfit Style) ===== -->
+  <div id="top-greeting-banner" class="top-greeting-banner" role="banner" aria-label="Welcome Announcement">
+    <div class="top-greeting-content">
+      <span id="top-greeting-icon" class="top-greeting-icon">☀️</span>
+      <span id="top-greeting-text" class="top-greeting-text">
+        Good Afternoon, Welcome to CineVault. Start Searching Your Favourites Movies!
+      </span>
+      <span class="top-greeting-sparkle">✨</span>
+    </div>
+    <button id="top-greeting-close" class="top-greeting-close" title="Close announcement" aria-label="Close Announcement">&times;</button>
+  </div>
+
   <!-- ===== NAVBAR ===== -->
   <nav id="navbar" role="navigation" aria-label="Main navigation">
     <div class="nav-left">
       <div class="nav-logo-wrapper" id="nav-logo-btn" title="Back to Home" role="button" tabindex="0" aria-label="Go to Home">
         <img src="fa.png" alt="CineVault Logo" class="nav-logo-img">
       </div>
-      <span class="nav-divider" aria-hidden="true"></span>
-      <p class="greeting-message" id="greeting-msg" aria-live="polite"></p>
     </div>
 
     <!-- Inline search (visible after first search / on mobile tap) -->
@@ -96,6 +106,8 @@
         <div class="hero-badge" aria-label="Powered by Keshav">
           <i class="fa-solid fa-star" aria-hidden="true"></i>
           <span>Powered by Keshav</span>
+          <span class="badge-dot">•</span>
+          <span id="hero-time-greeting" class="hero-greeting-pill">Good Afternoon</span>
         </div>
 
         <!-- Title -->
