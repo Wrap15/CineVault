@@ -13,13 +13,22 @@
    • Mobile Bottom Navigation & Desktop First Responsive UI
    ============================================================ */
 
-// ── API CONFIGURATION ───────────────────────────────────────
+// ── API CONFIGURATION WITH FAILOVER POOL ─────────────────────
 const API_BASE = 'https://www.omdbapi.com';
-const OMDB_KEY = '94397865';
+const OMDB_KEYS = ['4a3b711b', '94397865'];
+let currentKeyIdx = 0;
+
+function getOmdbKey() {
+  return OMDB_KEYS[currentKeyIdx % OMDB_KEYS.length];
+}
+
+function rotateOmdbKey() {
+  currentKeyIdx = (currentKeyIdx + 1) % OMDB_KEYS.length;
+}
 
 const API = {
-  search: (q, y) => `${API_BASE}/?apikey=${OMDB_KEY}&s=${encodeURIComponent(q)}&page=1${y ? `&y=${y}` : ''}`,
-  detail: (id) => `${API_BASE}/?apikey=${OMDB_KEY}&i=${id}&plot=full`,
+  search: (q, y) => `${API_BASE}/?apikey=${getOmdbKey()}&s=${encodeURIComponent(q)}&page=1${y ? `&y=${y}` : ''}`,
+  detail: (id) => `${API_BASE}/?apikey=${getOmdbKey()}&i=${id}&plot=full`,
 };
 
 // ── LRU & LOCALSTORAGE CACHE (Ultra Fast 1-3s Load Times) ─────────
@@ -517,16 +526,31 @@ async function loadMovies(searchTerm) {
       if (last.length > 3) data = await fetchJSON(API.search(last, yearParam), signal);
     }
 
-    if (data.Response === 'True') {
+    if (data.Response === 'True' && data.Search && data.Search.length) {
       // Keep all returned items visible, using fallback title placeholders for missing posters
       const validMovies = (data.Search || []).filter(m => m && m.Title);
       cacheSet(cacheKey, validMovies);
       displayMovieList(validMovies);
     } else {
-      showNoResults(trimmed);
+      // API quota reached or 0 results → Fallback to Rich Local Fuzzy Catalog
+      rotateOmdbKey();
+      const localMatches = typeof searchLocalCatalog === 'function' ? searchLocalCatalog(trimmed) : [];
+      if (localMatches && localMatches.length) {
+        displayMovieList(localMatches);
+      } else {
+        showNoResults(trimmed);
+      }
     }
   } catch (e) {
-    if (e.name !== 'AbortError') showNoResults(trimmed);
+    if (e.name !== 'AbortError') {
+      rotateOmdbKey();
+      const localMatches = typeof searchLocalCatalog === 'function' ? searchLocalCatalog(trimmed) : [];
+      if (localMatches && localMatches.length) {
+        displayMovieList(localMatches);
+      } else {
+        showNoResults(trimmed);
+      }
+    }
   }
 }
 

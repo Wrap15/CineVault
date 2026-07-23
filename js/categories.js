@@ -1,7 +1,7 @@
 /* ============================================================
    CINEVAULT — categories.js
-   Hand-curated movie & series collections by category
-   Includes Fallback Titles & Weekly Auto-Refresh System
+   Hand-curated movie & series collections per category
+   Includes Rich Local Search Catalog & Fuzzy Search Engine
    ============================================================ */
 
 const CATEGORIES = {
@@ -33,6 +33,9 @@ const CATEGORIES = {
     'tt6751668'   // Parasite
   ],
   bollywood: [
+    'tt0461936',  // Don (2006 - Shah Rukh Khan)
+    'tt1285241',  // Don 2 (2011)
+    'tt0077451',  // Don (1978 - Amitabh Bachchan)
     'tt12735488', // Kalki 2898 AD
     'tt15097216', // Jawan
     'tt5074352',  // Dangal
@@ -82,7 +85,14 @@ const CATEGORIES = {
 };
 
 const TITLES_FALLBACK = {
+  'tt0461936': 'Don (2006)',
+  'tt1285241': 'Don 2 (2011)',
+  'tt0077451': 'Don (1978)',
+  'tt28630043': 'Don 3',
+  'tt2229499': 'Don Jon',
   'tt1757678': 'Avatar: Fire and Ash',
+  'tt0499549': 'Avatar',
+  'tt1630029': 'Avatar: The Way of Water',
   'tt5950044': 'Superman',
   'tt31036941': 'Jurassic World: Rebirth',
   'tt14513804': 'Captain America: Brave New World',
@@ -96,6 +106,7 @@ const TITLES_FALLBACK = {
   'tt15239678': 'Dune: Part Two',
   'tt6263850': 'Deadpool & Wolverine',
   'tt4154796': 'Avengers: Endgame',
+  'tt0848228': 'The Avengers',
   'tt1375666': 'Inception',
   'tt0816692': 'Interstellar',
   'tt0468569': 'The Dark Knight',
@@ -141,6 +152,37 @@ const TITLES_FALLBACK = {
   'tt6468322': 'Money Heist'
 };
 
+// Rich local catalog database for instant search fallback
+const LOCAL_FULL_CATALOG = [
+  { imdbID: 'tt0461936', Title: 'Don', Year: '2006', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BYjBmOTg2NTgtZTc2Mi00ZWRhLTkzMWQtMDI0YThhZTcyMzYwXkEyXkFqcGc@._V1_SX300.jpg' },
+  { imdbID: 'tt1285241', Title: 'Don 2', Year: '2011', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BOTc3YmI2OTgtMTBmMi00Y2FmLWJjNGUtZTJjOGI1NDVlMDY5XkEyXkFqcGc@._V1_SX300.jpg' },
+  { imdbID: 'tt0077451', Title: 'Don', Year: '1978', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BNDIyN2U3NDItZjFlYy00OWQ4LTg4Y2UtOGU2OGU5MWE5MmZhXkEyXkFqcGc@._V1_SX300.jpg' },
+  { imdbID: 'tt2229499', Title: 'Don Jon', Year: '2013', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BNDgwMTU2NDctODI0YS00ZmIxLWFiNjEtZDI2ZGE3NWFlZDY2XkEyXkFqcGc@._V1_SX300.jpg' },
+  { imdbID: 'tt1757678', Title: 'Avatar: Fire and Ash', Year: '2025', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BZDYxY2I1OGMtN2Y4MS00ZmU1LTgyNDAtODA0MzAyYjI0N2Y2XkEyXkFqcGc@._V1_SX300.jpg' },
+  { imdbID: 'tt5950044', Title: 'Superman', Year: '2025', Type: 'movie', Poster: 'N/A' },
+  { imdbID: 'tt10579942', Title: 'Pathaan', Year: '2023', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BM2FiMTNiODctNWZlNy00YzhhLThlYjMtNmZlYWY1MTNlMGEyXkEyXkFqcGc@._V1_SX300.jpg' },
+  { imdbID: 'tt15097216', Title: 'Jawan', Year: '2023', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BMjA1NmRkZWYtNGFiZS00Mzc2LWE4NjctOTA5ZWFlMWJmMjVlXkEyXkFqcGc@._V1_SX300.jpg' },
+  { imdbID: 'tt12735488', Title: 'Kalki 2898 AD', Year: '2024', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BYzA2N2U5MTgtNTg2OS00ZGI3LWI0NTYtMDQyOTM0OWYyNWZkXkEyXkFqcGc@._V1_SX300.jpg' },
+  { imdbID: 'tt4154796', Title: 'Avengers: Endgame', Year: '2019', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_SX300.jpg' },
+  { imdbID: 'tt0848228', Title: 'The Avengers', Year: '2012', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BMTk2NTI1NjU4N15BMl5BanBnXkFtZTcwODg0OTY0Nw@@._V1_SX300.jpg' },
+  { imdbID: 'tt10872600', Title: 'Spider-Man: No Way Home', Year: '2021', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BMmFiZGZjMmEtMTA0Ni00MzA2LTljMTYtZGI2MGJmZWYzZTQ2XkEyXkFqcGc@._V1_SX300.jpg' },
+  { imdbID: 'tt9362722', Title: 'Spider-Man: Across the Spider-Verse', Year: '2023', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BMzI0NmVkMjEtYmY4MS00ZDMxLTlkZmEtMzU4MDQxYTMzMjU2XkEyXkFqcGc@._V1_SX300.jpg' },
+  { imdbID: 'tt0468569', Title: 'The Dark Knight', Year: '2008', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_SX300.jpg' },
+  { imdbID: 'tt0372784', Title: 'Batman Begins', Year: '2005', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BOT14NTAxZDItNzc5MS00ZTIyLTgwNWEtZGZhZDg4MmU3OTYwXkEyXkFqcGc@._V1_SX300.jpg' },
+  { imdbID: 'tt1375666', Title: 'Inception', Year: '2010', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg' },
+  { imdbID: 'tt0816692', Title: 'Interstellar', Year: '2014', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BYzdjMDAxZGItMjI2My00ODA1LTlkNzItOWFjMDU5ZDJlYWY3XkEyXkFqcGc@._V1_SX300.jpg' },
+  { imdbID: 'tt8600134', Title: 'Pushpa: The Rise', Year: '2021', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BMmQ4YjBkODgtZDMzYi00ZDYzLWEyN2ItNDBjN2VlMDNlZWYyXkEyXkFqcGc@._V1_SX300.jpg' },
+  { imdbID: 'tt8178634', Title: 'RRR', Year: '2022', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BODUwNDNjYzctODUxNy00ZTA2LWIyYTEtMDc5M2VlNDZMGY2XkEyXkFqcGc@._V1_SX300.jpg' },
+  { imdbID: 'tt10698680', Title: 'K.G.F: Chapter 2', Year: '2022', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BMjA2MDU3ZWItMjA4Ny00MGNmLWFhY2MtZWI0OTc1ZmNmMmJkXkEyXkFqcGc@._V1_SX300.jpg' },
+  { imdbID: 'tt0073707', Title: 'Sholay', Year: '1975', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BNmE5Zjg3ZTEtNWU4Zi00YzBhLWEzNWEtNDdhNjg2Zjg2NjI1XkEyXkFqcGc@._V1_SX300.jpg' },
+  { imdbID: 'tt5074352', Title: 'Dangal', Year: '2016', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BMTQ4MzQzMzM2Nl5BMl5BanBnXkFtZTgwMTQ1NzU3MDI@._V1_SX300.jpg' },
+  { imdbID: 'tt1187043', Title: '3 Idiots', Year: '2009', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BNTkyOGVjMGEtNmQzZi00NzFlLTlhOWQtODYyMDc2GzZlNzhiXkEyXkFqcGc@._V1_SX300.jpg' },
+  { imdbID: 'tt26331750', Title: 'Vash', Year: '2023', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BZDAyMDM0MzEtN2JmNS00Nzg2LWEyYTAtNDU2OTM5YTdhZmNhXkEyXkFqcGc@._V1_SX300.jpg' },
+  { imdbID: 'tt5086104', Title: 'Chhello Divas', Year: '2015', Type: 'movie', Poster: 'N/A' },
+  { imdbID: 'tt9335498', Title: 'Demon Slayer: Mugen Train', Year: '2020', Type: 'movie', Poster: 'https://m.media-amazon.com/images/M/MV5BODI2NjdlYWItMTE1ZC00YzI2LTlhZGQtNzE3NzA4Mzc0ZWNhXkEyXkFqcGc@._V1_SX300.jpg' },
+  { imdbID: 'tt12637874', Title: 'Fallout', Year: '2024', Type: 'series', Poster: 'https://m.media-amazon.com/images/M/MV5BN2FmODJmN2QtNmMxZi00ZmE1LWIxOWQtZTU3N2FmMTNhN2ZlXkEyXkFqcGc@._V1_SX300.jpg' }
+];
+
 const CATEGORY_NAMES = {
   latest2026: 'Latest & Upcoming Cinema (2025–2026)',
   hollywood: 'Hollywood Cinema',
@@ -167,6 +209,68 @@ function checkAutoRefreshCatalog() {
     console.warn('Catalog auto-refresh check skipped:', e);
   }
   return false;
+}
+
+/**
+ * Local Catalog Fuzzy Search Engine.
+ * Executes token matching and edit distance check when OMDb is rate limited or spelling is imperfect.
+ */
+function searchLocalCatalog(query) {
+  if (!query || typeof query !== 'string') return [];
+  const q = query.trim().toLowerCase();
+  if (q.length < 2) return [];
+
+  const results = [];
+  const addedIds = new Set();
+
+  LOCAL_FULL_CATALOG.forEach(m => {
+    const title = (m.Title || '').toLowerCase();
+    const id = m.imdbID || m.id;
+
+    if (addedIds.has(id)) return;
+
+    if (title.includes(q) || q.includes(title) || isFuzzyMatch(q, title)) {
+      addedIds.add(id);
+      results.push(m);
+    }
+  });
+
+  return results;
+}
+
+function isFuzzyMatch(str1, str2) {
+  if (!str1 || !str2) return false;
+  const s1 = str1.toLowerCase().replace(/[^a-z0-9]/g, '');
+  const s2 = str2.toLowerCase().replace(/[^a-z0-9]/g, '');
+  if (s2.includes(s1) || s1.includes(s2)) return true;
+
+  if (s1.length >= 3 && s2.length >= 3) {
+    if (s1.slice(0, 3) === s2.slice(0, 3)) return true;
+    if (levenshteinDistance(s1, s2) <= 2) return true;
+  }
+  return false;
+}
+
+function levenshteinDistance(a, b) {
+  if (a.length === 0) return b.length;
+  if (b.length === 0) return a.length;
+  const matrix = [];
+  for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+  for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+  for (let i = 1; i <= b.length; i++) {
+    for (let j = 1; j <= a.length; j++) {
+      if (b.charAt(i - 1) === a.charAt(j - 1)) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j - 1] + 1,
+          matrix[i][j - 1] + 1,
+          matrix[i - 1][j] + 1
+        );
+      }
+    }
+  }
+  return matrix[b.length][a.length];
 }
 
 /**
