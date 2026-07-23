@@ -221,7 +221,7 @@
 
 /* ── TABLET 768px+ ──────────────────────────────────────── */
 @media (min-width: 768px) {
-  #search-list { border-radius: 20px; max-height: 460px; top: calc(100% + 22px); }
+  #search-list { border-radius: 20px; top: calc(100% + 22px); }
   .search-item-thumbnail { width: 52px; height: 72px; }
   .search-item-info h3  { font-size: 0.94rem; }
   .search-item-actors   { display: block; }
@@ -234,46 +234,4 @@
   .search-item-actors { display: none; }
   .search-item-thumbnail { width: 38px; height: 54px; border-radius: 5px; }
   .search-list-item { gap: 10px; padding: 10px 12px; }
-}
-
-/* ── Search Filter Pills (IMDb Style) ────────────────────── */
-.search-filter-pills {
-  display: flex;
-  gap: 6px;
-  margin-left: auto;
-}
-.filter-pill {
-  padding: 3px 10px;
-  font-size: 0.58rem;
-  font-weight: 700;
-  border-radius: var(--radius-full);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  transition: all var(--tr);
-  cursor: pointer;
-}
-.filter-pill:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text-primary);
-}
-.filter-pill.active {
-  background: var(--gold) !important;
-  border-color: var(--gold) !important;
-  color: #0b0b12 !important;
-}
-body.light-theme .filter-pill {
-  background: rgba(0, 0, 0, 0.04);
-  border-color: rgba(0, 0, 0, 0.08);
-  color: var(--text-secondary);
-}
-body.light-theme .filter-pill:hover {
-  background: rgba(0, 0, 0, 0.08);
-}
-body.light-theme .filter-pill.active {
-  background: var(--gold) !important;
-  border-color: var(--gold) !important;
-  color: #0b0b12 !important;
 }

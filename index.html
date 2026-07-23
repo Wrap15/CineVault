@@ -3,9 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="CineVault — AI-powered movie discovery. Explore Hollywood, Bollywood, Gujarati, South Indian, Anime & Web Series.">
+  <meta name="description" content="CineVault — Next-Gen AI-powered movie discovery. Explore Hollywood, Bollywood, Gujarati, South Indian, Anime & Web Series with ratings, trailers, and curated lists.">
+  <meta name="keywords" content="movies, Gujarati movies, Vash, Hellaro, Bollywood, Hollywood, web series, anime, IMDb rating, CineVault">
   <meta name="theme-color" content="#0a0a0f">
-  <title>CineVault — Discover Movies</title>
+  <title>CineVault — Discover Movies, Series &amp; Cinema</title>
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="CineVault — Discover Your Next Favourite Movie">
+  <meta property="og:description" content="Explore Hollywood, Bollywood, Gujarati, South Indian, Anime & Web Series with live IMDb scores, trailers, and watchlist management.">
+  <meta property="og:image" content="fa.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CineVault — Discover Movies &amp; Cinema">
+  <meta name="twitter:description" content="Explore global cinema & regional Gujarati movies with ratings and trailers.">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="fa.png">
@@ -25,6 +37,9 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/search-styles.css">
+
+  <!-- Dynamic JSON-LD Schema Container -->
+  <script id="jsonld-schema" type="application/ld+json">{}</script>
 </head>
 
 <body>
@@ -60,6 +75,10 @@
       <button class="nav-icon-btn fav-nav-btn" id="nav-fav-btn" title="My Favourites" aria-label="My Favourites">
         <i class="fa-solid fa-heart" aria-hidden="true"></i>
         <span class="fav-badge" id="fav-badge" style="display:none;" aria-label="Favourites count">0</span>
+      </button>
+      <button class="nav-icon-btn fav-nav-btn" id="nav-watchlist-btn" title="My Watchlist" aria-label="My Watchlist">
+        <i class="fa-solid fa-bookmark" aria-hidden="true"></i>
+        <span class="fav-badge watchlist-badge" id="watchlist-badge" style="display:none;" aria-label="Watchlist count">0</span>
       </button>
     </div>
   </nav>
@@ -136,7 +155,23 @@
       </div>
     </main>
 
-
+    <!-- Regional & Genre Categories Section -->
+    <section class="categories-section" id="categories-section" aria-label="Browse by Category">
+      <div class="categories-header">
+        <h2><i class="fa-solid fa-compass" aria-hidden="true"></i> Explore Curated Cinema</h2>
+        <p>Handpicked collections across regional industries &amp; popular genres</p>
+      </div>
+      <div class="category-pills" id="category-pills">
+        <button class="cat-pill active" data-category="latest2026"><i class="fa-solid fa-fire" style="color:var(--gold);"></i> Latest 2025–2026</button>
+        <button class="cat-pill" data-category="gujarati"><i class="fa-solid fa-video"></i> Gujarati Cinema</button>
+        <button class="cat-pill" data-category="hollywood"><i class="fa-solid fa-film"></i> Hollywood</button>
+        <button class="cat-pill" data-category="bollywood"><i class="fa-solid fa-clapperboard"></i> Bollywood</button>
+        <button class="cat-pill" data-category="southIndian"><i class="fa-solid fa-masks-theater"></i> South Indian</button>
+        <button class="cat-pill" data-category="anime"><i class="fa-solid fa-dragon"></i> Anime</button>
+        <button class="cat-pill" data-category="webSeries"><i class="fa-solid fa-tv"></i> Web Series</button>
+      </div>
+      <div class="category-grid" id="category-results-grid"></div>
+    </section>
 
   </div>
   <!-- ===== END HOME PAGE ===== -->
@@ -153,31 +188,35 @@
   <!-- ===== END MOVIE DETAIL ===== -->
 
 
-  <!-- ===== FAVOURITES PAGE ===== -->
-  <section id="favourite-result" style="display:none;" aria-label="My Favourites">
+  <!-- ===== SAVED ITEMS PAGE (FAVOURITES & WATCHLIST) ===== -->
+  <section id="favourite-result" style="display:none;" aria-label="Saved Movies">
     <div class="fav-page-header">
       <div>
-        <h1 class="fav-page-title">
-          <i class="fa-solid fa-heart" aria-hidden="true"></i>
-          My Favourites
-        </h1>
-        <p class="fav-page-sub">Your curated collection of must-watch films</p>
+        <div class="saved-tabs" id="saved-tabs">
+          <button class="saved-tab active" id="tab-fav-btn">
+            <i class="fa-solid fa-heart" aria-hidden="true"></i> Favourites
+          </button>
+          <button class="saved-tab" id="tab-watchlist-btn">
+            <i class="fa-solid fa-bookmark" aria-hidden="true"></i> Watchlist
+          </button>
+        </div>
+        <p class="fav-page-sub" id="saved-sub-text">Your curated collection of must-watch films</p>
       </div>
       <div class="fav-header-actions">
-        <button class="fav-clear-btn" id="fav-clear-all-btn" title="Clear All" aria-label="Clear all favourites">
+        <button class="fav-clear-btn" id="fav-clear-all-btn" title="Clear All" aria-label="Clear all saved items">
           <i class="fa-solid fa-trash" aria-hidden="true"></i>
           <span>Clear All</span>
         </button>
-        <button class="fav-close-btn" id="fav-close-btn" title="Close" aria-label="Close favourites">
+        <button class="fav-close-btn" id="fav-close-btn" title="Close" aria-label="Close saved items">
           <i class="fa-solid fa-xmark" aria-hidden="true"></i>
         </button>
       </div>
     </div>
-    <div class="fav-list" id="fav-list" role="list" aria-label="Favourite movies"></div>
+    <div class="fav-list" id="fav-list" role="list" aria-label="Saved movies"></div>
     <div class="fav-empty" id="fav-empty" style="display:none;" aria-live="polite">
-      <i class="fa-regular fa-heart fav-empty-icon" aria-hidden="true"></i>
-      <h3>No favourites yet</h3>
-      <p>Search for a movie and click the heart to save it here.</p>
+      <i class="fa-regular fa-heart fav-empty-icon" id="fav-empty-icon" aria-hidden="true"></i>
+      <h3 id="fav-empty-title">No favourites yet</h3>
+      <p id="fav-empty-desc">Search for a movie and click the heart icon to save it here.</p>
     </div>
   </section>
   <!-- ===== END FAVOURITES ===== -->
@@ -202,12 +241,12 @@
         </p>
         <!-- Explore pills: compact, inline -->
         <div class="footer-genre-pills" aria-label="Explore genres">
-          <span class="fgp">Hollywood</span>
-          <span class="fgp">Bollywood</span>
-          <span class="fgp">South Indian</span>
-          <span class="fgp">Gujarati</span>
-          <span class="fgp">Anime</span>
-          <span class="fgp">Web Series</span>
+          <span class="fgp" data-category="hollywood">Hollywood</span>
+          <span class="fgp" data-category="bollywood">Bollywood</span>
+          <span class="fgp" data-category="southIndian">South Indian</span>
+          <span class="fgp" data-category="gujarati">Gujarati</span>
+          <span class="fgp" data-category="anime">Anime</span>
+          <span class="fgp" data-category="webSeries">Web Series</span>
         </div>
       </div>
 
@@ -237,6 +276,13 @@
   </footer>
 
 
+  <!-- ===== MOVIE DETAIL MODAL ===== -->
+  <div id="movie-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-content">
+      <button id="modal-close" class="modal-close-btn" aria-label="Close modal">&times;</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
 
   <!-- ===== TOAST ===== -->
   <div class="toast" id="toast" role="alert" aria-live="polite" aria-atomic="true">
@@ -244,7 +290,17 @@
     <span id="toast-msg">Added to favourites!</span>
   </div>
 
+  <!-- ===== MOBILE BOTTOM NAVIGATION ===== -->
+  <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Mobile Navigation">
+    <button class="mbnav-btn active" id="mbnav-home"><i class="fa-solid fa-house"></i><span>Home</span></button>
+    <button class="mbnav-btn" id="mbnav-explore"><i class="fa-solid fa-compass"></i><span>Explore</span></button>
+    <button class="mbnav-btn" id="mbnav-fav"><i class="fa-solid fa-heart"></i><span>Favs</span></button>
+    <button class="mbnav-btn" id="mbnav-watchlist"><i class="fa-solid fa-bookmark"></i><span>Watchlist</span></button>
+  </nav>
+
   <!-- ===== SCRIPTS ===== -->
+  <script src="js/storage.js"></script>
+  <script src="js/categories.js"></script>
   <script src="js/greetingMessage.js"></script>
   <script src="js/script.js"></script>
 </body>
