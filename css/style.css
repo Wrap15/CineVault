@@ -2079,5 +2079,18 @@ body:not(.light-theme) .cat-pill:not(.active) {
   text-overflow: ellipsis;
 }
 
+/* 60 FPS GPU-Accelerated Smooth Animations */
+.category-card,
+.movie-card,
+.rec-card,
+.fav-card,
+.modal-content,
+.search-list-item {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
 
 

@@ -761,9 +761,12 @@ async function loadCategoryShowcase(categoryKey) {
       card.setAttribute('role', 'button');
       card.setAttribute('tabindex', '0');
 
-      const fallbackImg = (typeof POSTER_FALLBACK !== 'undefined' && POSTER_FALLBACK[m.imdbID]) || 'https://m.media-amazon.com/images/M/MV5BZDYxY2I1OGMtN2Y4MS00ZmU1LTgyNDAtODA0MzAyYjI0N2Y2XkEyXkFqcGc@._V1_SX600.jpg';
+      const fallbackImg = (typeof POSTER_FALLBACK !== 'undefined' && POSTER_FALLBACK[m.imdbID]) || '';
       const posterSrc = (m.Poster && m.Poster !== 'N/A') ? m.Poster : fallbackImg;
-      const posterHTML = `<img class="category-card-img" src="${escHtml(posterSrc)}" alt="${escHtml(m.Title)}" loading="lazy" onerror="this.onerror=null;this.src='${fallbackImg}';">`;
+      const titleEsc = escHtml(m.Title);
+      const posterHTML = posterSrc 
+        ? `<img class="category-card-img" src="${escHtml(posterSrc)}" alt="${titleEsc}" loading="lazy" decoding="async" onerror="this.onerror=null;this.parentElement.innerHTML=\`<div class='movie-poster-placeholder'><i class='fa-solid fa-film'></i><span>${titleEsc}</span></div>\`;">`
+        : `<div class="movie-poster-placeholder"><i class="fa-solid fa-film"></i><span>${titleEsc}</span></div>`;
 
       card.innerHTML = `
         <div class="category-card-poster-wrapper">
@@ -771,7 +774,7 @@ async function loadCategoryShowcase(categoryKey) {
           <div class="category-card-overlay"></div>
         </div>
         <div class="category-card-info">
-          <div class="category-card-title" title="${escHtml(m.Title)}">${escHtml(m.Title)}</div>
+          <div class="category-card-title" title="${titleEsc}">${titleEsc}</div>
         </div>
       `;
 
