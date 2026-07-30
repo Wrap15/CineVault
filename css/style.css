@@ -89,11 +89,14 @@ a { text-decoration: none; color: inherit; }
   will-change: transform;
 }
 
-/* ---- SCROLLBAR ---- */
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(--bg-deep); }
-::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: var(--radius-full); }
-::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+/* ---- SLEEK MODERN SCROLLBAR ---- */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.18); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(245, 197, 24, 0.45); }
+
+body.light-theme ::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.18); }
+body.light-theme ::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, 0.35); }
 
 /* ============================================================
    TOP ANNOUNCEMENT GREETING BANNER (OnlyProfit Style)
@@ -1214,6 +1217,8 @@ body.light-theme .detail-share-btn:hover {
   width: 100%;
   max-height: 85vh;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
   padding: 28px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(245, 197, 24, 0.1);
   transform: scale(0.95);
@@ -1390,8 +1395,11 @@ body.light-theme .detail-share-btn:hover {
 /* Category Grid & Ultra-Clean Movie Slab Cards */
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
-  gap: 22px;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  align-items: stretch;
 }
 .category-card {
   background: rgba(18, 18, 26, 0.95);
@@ -1400,17 +1408,20 @@ body.light-theme .detail-share-btn:hover {
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s ease;
-  content-visibility: auto;
-  contain-intrinsic-size: 175px 280px;
   display: flex;
   flex-direction: column;
   position: relative;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  isolation: isolate;
 }
 .category-card:hover {
-  transform: translateY(-6px) scale(1.03);
+  transform: translateY(-6px) scale(1.02);
   border-color: var(--gold);
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 25px rgba(245, 197, 24, 0.25);
+  z-index: 5;
 }
 .category-card-poster-wrapper {
   position: relative;
@@ -1418,11 +1429,13 @@ body.light-theme .detail-share-btn:hover {
   aspect-ratio: 2 / 3;
   overflow: hidden;
   background: #0f0f18;
+  flex-shrink: 0;
 }
 .category-card-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
   transition: transform 0.3s ease;
 }
 .category-card:hover .category-card-img {
@@ -1435,18 +1448,19 @@ body.light-theme .detail-share-btn:hover {
   pointer-events: none;
 }
 .category-card-info {
-  padding: 12px 14px;
+  padding: 10px 12px;
   text-align: center;
   background: rgba(18, 18, 26, 0.95);
   flex-grow: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
 }
 .category-card-title {
   font-family: var(--font-heading);
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   color: var(--text-primary);
   line-height: 1.25;
   display: -webkit-box;
@@ -1866,20 +1880,23 @@ body.light-theme .mbnav-btn:not(.active):hover {
 }
 
 /* Responsive Breakpoints Desktop First */
-@media (min-width: 1024px) {
+@media (min-width: 1200px) {
   .category-grid {
-    grid-template-columns: repeat(4, 1fr) !important;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important;
+    gap: 20px !important;
   }
 }
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 768px) and (max-width: 1199px) {
   .category-grid {
-    grid-template-columns: repeat(3, 1fr) !important;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) !important;
+    gap: 16px !important;
   }
 }
 @media (max-width: 767px) {
   .category-grid, .fav-list {
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 12px !important;
+    width: 100% !important;
   }
   body {
     padding-bottom: 60px; /* space for mobile bottom nav */
@@ -1889,6 +1906,7 @@ body.light-theme .mbnav-btn:not(.active):hover {
   .category-grid, .fav-list {
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 10px !important;
+    width: 100% !important;
   }
   .category-card, .fav-card {
     border-radius: 12px !important;

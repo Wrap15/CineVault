@@ -241,30 +241,41 @@ const POSTER_FALLBACK = {
   'tt7580570': 'https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTQzNzE@._V1_SX600.jpg',
   'tt20251716': 'https://m.media-amazon.com/images/M/MV5BZDAyMDM0MzEtN2JmNS00Nzg2LWEyYTAtNDU2OTM5YTdhZmNhXkEyXkFqcGc@._V1_SX600.jpg',
   'tt23664710': 'https://m.media-amazon.com/images/M/MV5BODA0MTM4MTUtZjBiNi00MDFhLTg0NTYtZGYwNDM3YjdiNDFmXkEyXkFqcGc@._V1_SX600.jpg',
-  'tt9335498': 'https://m.media-amazon.com/images/M/MV5BODI2NjdlYWItMTE1ZC00YzI2LTlhZGQtNzE3NzA4Mzc0ZWNhXkEyXkFqcGc@._V1_SX600.jpg',
-  'tt0245429': 'https://m.media-amazon.com/images/M/MV5BNTEyNmEwOWUtYzkyOC00ZTQ4LTllZmUtMjk0Y2YwOGUzYzA0XkEyXkFqcGc@._V1_SX600.jpg',
-  'tt5311514': 'https://m.media-amazon.com/images/M/MV5BNGYyNmI3M2ItOTRjYi00MmJmLWI0OWItYjc1TRjZDYyM2NlXkEyXkFqcGc@._V1_SX600.jpg',
-  'tt2560140': 'https://m.media-amazon.com/images/M/MV5BMTY5ODk1NzUyMl5BMl5BanBnXkFtZTgwMjUyNjEwMzE@._V1_SX600.jpg',
-  'tt4772808': 'https://m.media-amazon.com/images/M/MV5BMTQ4MzQzMzM2Nl5BMl5BanBnXkFtZTgwMTQ1NzU3MDI@._V1_SX600.jpg',
-  'tt12637874': 'https://m.media-amazon.com/images/M/MV5BN2FmODJmN2QtNmMxZi00ZmE1LWIxOWQtZTU3N2FmMTNhN2ZlXkEyXkFqcGc@._V1_SX600.jpg',
-  'tt2788316': 'https://m.media-amazon.com/images/M/MV5BYzVlYjU4YjUtN2VlMi00YmY0LThlYjMtNmZlYWY1MTNlMGEyXkEyXkFqcGc@._V1_SX600.jpg',
-  'tt11198330': 'https://m.media-amazon.com/images/M/MV5BM2QzM2JiNTMtOWM4NC00M2FlLTg4NWQtZGU1OTkzM2ZlY2QyXkEyXkFqcGc@._V1_SX600.jpg',
-  'tt3581920': 'https://m.media-amazon.com/images/M/MV5BZGUzMTIyMWEtYWJhMC00M2FiLTgwZmItNWY2NWU3NWVlZjVjXkEyXkFqcGc@._V1_SX600.jpg',
-  'tt0944947': 'https://m.media-amazon.com/images/M/MV5BMTNhMDJmNmYtNDJiOS00N2E5LTg4NTgtZGUzYzFjN2JiNDhkXkEyXkFqcGc@._V1_SX600.jpg',
-  'tt4574334': 'https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTQzNzE@._V1_SX600.jpg',
-  'tt0903747': 'https://m.media-amazon.com/images/M/MV5BYmQ4YjBkODgtZDMzYi00ZDYzLWEyN2ItNDBjN2VlMDNlZWYyXkEyXkFqcGc@._V1_SX600.jpg',
-  'tt6468322': 'https://m.media-amazon.com/images/M/MV5BODI2NjdlYWItMTE1ZC00YzI2LTlhZGQtNzE3NzA4Mzc0ZWNhXkEyXkFqcGc@._V1_SX600.jpg'
+    'tt12637874': 'https://m.media-amazon.com/images/M/MV5BN2FmODJmN2QtNmMxZi00ZmE1LWIxOWQtZTU3N2FmMTNhN2ZlXkEyXkFqcGc@._V1_SX600.jpg',
+    'tt2788316': 'https://m.media-amazon.com/images/M/MV5BYzVlYjU4YjUtN2VlMi00YmY0LThlYjMtNmZlYWY1MTNlMGEyXkEyXkFqcGc@._V1_SX600.jpg',
+    'tt11198330': 'https://m.media-amazon.com/images/M/MV5BM2QzM2JiNTMtOWM4NC00M2FlLTg4NWQtZGU1OTkzM2ZlY2QyXkEyXkFqcGc@._V1_SX600.jpg',
+    'tt3581920': 'https://m.media-amazon.com/images/M/MV5BZGUzMTIyMWEtYWJhMC00M2FiLTgwZmItNWY2NWU3NWVlZjVjXkEyXkFqcGc@._V1_SX600.jpg',
+    'tt0944947': 'https://m.media-amazon.com/images/M/MV5BMTNhMDJmNmYtNDJiOS00N2E5LTg4NTgtZGUzYzFjN2JiNDhkXkEyXkFqcGc@._V1_SX600.jpg',
+    'tt4574334': 'https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTQzNzE@._V1_SX600.jpg',
+    'tt0903747': 'https://m.media-amazon.com/images/M/MV5BYmQ4YjBkODgtZDMzYi00ZDYzLWEyN2ItNDBjN2VlMDNlZWYyXkEyXkFqcGc@._V1_SX600.jpg',
+    'tt6468322': 'https://m.media-amazon.com/images/M/MV5BODI2NjdlYWItMTE1ZC00YzI2LTlhZGQtNzE3NzA4Mzc0ZWNhXkEyXkFqcGc@._V1_SX600.jpg'
 };
 
 /**
+ * Daily Movie Rotator Engine:
+ * Shifts array order based on current calendar day so every single day
+ * users receive freshly updated movies at the top of each genre!
+ */
+function getDailyRotatedCollection(categoryKey) {
+  const ids = CATEGORIES[categoryKey] || CATEGORIES.latest2026;
+  if (!ids.length) return [];
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  const diff = now - start;
+  const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const shift = dayOfYear % ids.length;
+  return [...ids.slice(shift), ...ids.slice(0, shift)];
+}
+
+/**
  * Fetches all movie details for a given category key using a provided detail fetcher.
- * Guarantees zero empty screens by applying title and poster fallbacks.
+ * Guarantees zero empty screens by applying title and poster fallbacks and daily rotation.
  * @param {string} categoryKey
  * @param {Function} fetchDetailFn - Function taking imdbID and returning Promise of movie detail object
  * @returns {Promise<Array>}
  */
 async function fetchCategoryCollection(categoryKey, fetchDetailFn) {
-  const ids = CATEGORIES[categoryKey] || CATEGORIES.latest2026;
+  const ids = getDailyRotatedCollection(categoryKey);
   if (!ids.length) return [];
 
   const promises = ids.map(id =>
