@@ -1110,16 +1110,22 @@ function renderSavedList() {
       ? `<img class="category-card-img fav-card-img" src="${escHtml(posterSrc)}" alt="${escHtml(mv.Title || mv.title || '')}" loading="lazy" onload="this.classList.add('loaded')">`
       : createPosterPlaceholderHTML(mv.Title || mv.title || '');
 
+    const yearVal = mv.Year || mv.year || '2025';
     card.innerHTML = `
       <div class="category-card-poster-wrapper">
         ${posterHTML}
-        <div class="category-card-overlay"></div>
-        <button class="fav-card-remove" title="Remove" aria-label="Remove ${escHtml(mv.Title || mv.title || '')}">
+        <div class="poster-overlay">
+          <button class="preview-hover-btn">Preview</button>
+        </div>
+        <button class="fav-card-remove" title="Remove from list" aria-label="Remove ${escHtml(mv.Title || mv.title || '')}">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
       <div class="category-card-info">
         <div class="category-card-title" title="${escHtml(mv.Title || mv.title || '')}">${escHtml(mv.Title || mv.title || 'Unknown')}</div>
+        <div class="category-card-meta" style="font-size:0.75rem;color:var(--text-muted);margin-top:3px;text-align:center;">
+          <span>${escHtml(yearVal)}</span>
+        </div>
       </div>`;
 
     card.addEventListener('click', e => {

@@ -1877,11 +1877,68 @@ body.light-theme .mbnav-btn:not(.active):hover {
   }
 }
 @media (max-width: 767px) {
-  .category-grid {
+  .category-grid, .fav-list {
     grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
   }
   body {
     padding-bottom: 60px; /* space for mobile bottom nav */
+  }
+}
+@media (max-width: 640px) {
+  .category-grid, .fav-list {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+  .category-card, .fav-card {
+    border-radius: 12px !important;
+  }
+  .category-card-info, .fav-card-info {
+    padding: 8px 10px !important;
+  }
+  .category-card-title, .fav-card-title {
+    font-size: 0.82rem !important;
+    line-height: 1.25 !important;
+  }
+  .fav-card-remove {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+    top: 6px !important;
+    right: 6px !important;
+    width: 26px !important;
+    height: 26px !important;
+    font-size: 0.72rem !important;
+  }
+  .modal-content {
+    max-width: 94vw !important;
+    padding: 18px 14px !important;
+    border-radius: 16px !important;
+    max-height: 92vh !important;
+  }
+  .modal-header {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 12px !important;
+  }
+  .modal-poster {
+    width: 140px !important;
+    height: 200px !important;
+    border-radius: 12px !important;
+  }
+  .modal-header-info {
+    align-items: center !important;
+    gap: 6px !important;
+  }
+  .modal-header-info h2 {
+    font-size: 1.25rem !important;
+  }
+  .modal-close-btn {
+    top: 10px !important;
+    right: 10px !important;
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 1.2rem !important;
   }
 }
 @media (min-width: 641px) {
